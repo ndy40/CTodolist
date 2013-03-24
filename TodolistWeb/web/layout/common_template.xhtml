@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Todo List Manager</title>
+         <h:outputStylesheet library="blueprint" name="screen.css"/>
+        <h:outputStylesheet library="blueprint" name="print.css"/>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <div class="span-24">
+                <ui:insert id="header">
+                     here is some header
+                </ui:insert>
+            </div>
+            <div class="span-24 main-body">
+                <ui:insert id="mainContent">
+                    Here is some content
+                </ui:insert>                
+            </div>
+            <div class="span-24 footer">
+                <ui:insert id="footer">
+                    here is some footer
+                </ui:insert>
+            </div>            
+            
+        </div>
+    </h:body>
+</html>
+
