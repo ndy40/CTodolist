@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import uk.ac.sussex.ejb.AccountEJBLocal;
 import uk.ac.sussex.entity.User;
+import uk.sussex.bean.backing.Login;
 import uk.sussex.bean.backing.RegisterationBean;
 
 /**
@@ -28,6 +29,9 @@ public class AccountsController {
     private RegisterationBean regBean;
     @EJB
     AccountEJBLocal accountsEJB;
+    
+    @Inject
+    private Login loginBean;
 
     /**
      * Creates a new instance of AccountsController
@@ -67,5 +71,26 @@ public class AccountsController {
      */
     public void setRegBean(RegisterationBean regBean) {
         this.regBean = regBean;
+    }
+    
+    public String authenticate(){
+        if(getLoginBean() == null)
+            return "login_fail";
+        
+        return "login_success";
+    }
+
+    /**
+     * @return the loginBean
+     */
+    public Login getLoginBean() {
+        return loginBean;
+    }
+
+    /**
+     * @param loginBean the loginBean to set
+     */
+    public void setLoginBean(Login loginBean) {
+        this.loginBean = loginBean;
     }
 }

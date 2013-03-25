@@ -2,30 +2,32 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Todo List Manager</title>
-         <h:outputStylesheet library="blueprint" name="screen.css"/>
+        <h:outputStylesheet library="blueprint" name="screen.css"/>
         <h:outputStylesheet library="blueprint" name="print.css"/>
+        <style type="text/css">
+            table tr:nth-child(even) td {
+                background: transparent;
+            }
+        </style>
     </h:head>
     <h:body>
         <div class="container">
             <div class="span-24">
-                <ui:insert id="header">
-                     here is some header
+                <ui:insert name="header">
+                    Some header
                 </ui:insert>
             </div>
-            <div class="span-24 main-body">
-                <ui:insert id="mainContent">
-                    Here is some content
-                </ui:insert>                
-            </div>
-            <div class="span-24 footer">
-                <ui:insert id="footer">
-                    here is some footer
+            <div class="span-24">
+                <ui:insert name="content">
+                    some content
                 </ui:insert>
-            </div>            
-            
+            </div>
+            <div class="span-24">
+                <ui:insert name="footer">Some footer</ui:insert>
+            </div>
         </div>
     </h:body>
 </html>
