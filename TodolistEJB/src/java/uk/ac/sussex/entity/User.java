@@ -10,8 +10,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -22,7 +25,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table (name = "user_table")
 @NamedQueries ({
-        @NamedQuery(name = "User.getAllUsers",query = "SELECT u FROM User u order by u.lastName,u.firstName,u.id")})
+        @NamedQuery(name = "User.getAllUsers",query = "SELECT u FROM User u order by u.lastName,u.firstName,u.id"),
+        @NamedQuery(name = "User.getByEmail",query = "SELECT u FROM User u where u.email = :email")})
 public class User implements Serializable {
     private static long serialVersionUID = 1L;
 
@@ -56,6 +60,11 @@ public class User implements Serializable {
     private String password;
     @Column
     private String title;
+    
+    @OneToOne
+    @JoinTable(name = "USER_GROUPS",joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id")
+        ,inverseJoinColumns = @JoinColumn(name = "GROUP_ID",referencedColumnName = "id"))
+    private Group group;
 
     public Long getId() {
         return id;
@@ -158,6 +167,20 @@ public class User implements Serializable {
      */
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    /**
+     * @return the group
+     */
+    public Group getGroup() {
+        return group;
+    }
+
+    /**
+     * @param group the group to set
+     */
+    public void setGroup(Group group) {
+        this.group = group;
     }
     
 }

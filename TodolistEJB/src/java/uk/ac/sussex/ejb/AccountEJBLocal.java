@@ -6,7 +6,9 @@ package uk.ac.sussex.ejb;
 
 import java.util.List;
 import javax.ejb.Local;
+import uk.ac.sussex.entity.Group;
 import uk.ac.sussex.entity.User;
+import uk.ac.sussex.exceptions.DuplicateEmailException;
 
 /**
  *
@@ -15,11 +17,17 @@ import uk.ac.sussex.entity.User;
 @Local
 public interface AccountEJBLocal {
 
-    void createUser(User user);
+    void createUser(User user) throws DuplicateEmailException;
 
     User getUser(long userId);
 
     List getUsers();
+
+    public User getUserByEmail(String email);
+
+    public Group getGroup(long id);
+
+    public Group getGroup(String name);
 
        
 }
