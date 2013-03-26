@@ -8,13 +8,14 @@
     </h:head>
     <h:body>
         <ui:composition>
-            <h:panelGrid columns="2">
-                <h:outputLabel value="Email" for="email"/>
-                <h:inputText id="email" />
-                <h:outputLabel value="Password" for="password"/>
-                <h:inputSecret id="password" />
-                <h:panelGroup></h:panelGroup><h:commandButton value="Login" action="#{accountsController.authenticate()}"/>
-            </h:panelGrid>
+            <form action="j_security_check" method="post">
+            <table class="ignore">
+                   <caption class="large">Login</caption>
+                   <tr><td><h:outputLabel value="Email" for="email"/></td><td><input type="text" name="j_username" id="email" /></td></tr>
+                <tr><td><h:outputLabel value="Password" for="password"/></td><td><input type="password" id="password" name="j_password" /></td></tr>
+                <tr><td></td><td><input name="submit" value="Login" type="submit" /></td></tr>                
+            </table>  
+            </form>
         </ui:composition>
     </h:body>
 </html>

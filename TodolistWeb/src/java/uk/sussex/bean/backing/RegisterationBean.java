@@ -6,6 +6,7 @@ package uk.sussex.bean.backing;
 
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.validator.FacesValidator;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -16,6 +17,7 @@ import javax.validation.constraints.Size;
  */
 @Named (value = "regBean")
 @RequestScoped
+@FacesValidator(value = "uk.sussex.bean.RegPassword")
 public class RegisterationBean implements Serializable{
     @NotNull
     @Size(min = 3, max = 20,message = "First name must be at least 3 letters")
@@ -117,5 +119,10 @@ public class RegisterationBean implements Serializable{
     public void setTitle(String title) {
         this.title = title;
     }
+    
+    public boolean isValid(){
+        return password.equals(cpassword);
+    }
+    
     
 }

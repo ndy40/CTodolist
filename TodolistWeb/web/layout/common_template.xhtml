@@ -11,15 +11,19 @@
             table tr:nth-child(even) td {
                 background: transparent;
             }
+            table.ignore {
+                background: none;
+            }
         </style>
     </h:head>
     <h:body>
-        <div class="container">
+          <div class="container">
             <div class="span-24">
                 <ui:insert name="header">
                     Some header
                 </ui:insert>
             </div>
+              <div class="span-24"><h:form><h:messages class="info"></h:messages></h:form></div>
             <div class="span-24">
                 <ui:insert name="content">
                     some content

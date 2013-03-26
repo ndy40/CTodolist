@@ -14,27 +14,37 @@
                         xmlns:h="http://java.sun.com/jsf/html"
                         xmlns:ui="http://java.sun.com/jsf/facelets" >
             <div class="span-12">
-                <h:form id="regform">            
-                    <h:messages ></h:messages>
-                    <div class="span-12">
-                        <p><h:outputLabel for="firstName" value="First Name"  />
-                        <h:inputText id="firstName" value="#{accountsController.regBean.firstName}" required="true" validatorMessage="First name is required"/></p>
-                        <p><h:outputLabel for="lastName" value="Last Name"  />
-                        <h:inputText id="lastName" value="#{accountsController.regBean.lastName}" required="true" validatorMessage="Last name is required"/></p>
-                        <p><h:outputLabel for="email" value="Email"  />
-                        <h:inputText id="email" value="#{accountsController.regBean.email}" required="true" validatorMessage="Email is required"/></p>
-                        <p><h:outputLabel for="password" value="Password"  />
-                        <h:inputSecret value="#{accountsController.regBean.password}" id="password"  required="true" validatorMessage="Password is required"/></p>
-                        <p><h:outputLabel for="cpassword" value="Verify Password"  />
-                        <h:inputSecret id="cpassword" value="#{accountsController.regBean.cpassword}" required="true" validatorMessage="Password must be verified"/></p>
-                        <p>  <h:commandButton value="Register" action="#{accountsController.registerUser()}" type="submit" />
-                            <h:commandButton value="Reset" type="reset"/></p>
-                        
-                    </h:panelGrid>
-                    </div>
+                <h:form id="regform">
+                    <table class="ignore">
+                        <caption class="large">Registration</caption>
+                        <tr>
+                            <td><h:outputLabel for="firstName" value="First Name"  /></td>
+                            <td><h:inputText id="firstName" value="#{accountsController.regBean.firstName}" required="true" validatorMessage="First name is required"/></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel for="lastName" value="Last Name"  /></td>
+                            <td><h:inputText id="lastName" value="#{accountsController.regBean.lastName}" required="true" validatorMessage="Last name is required"/></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel for="email" value="Email"  /></td>
+                            <td><h:inputText id="email" value="#{accountsController.regBean.email}" required="true" validatorMessage="Email is required"/></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel for="password" value="Password"  /></td>
+                            <td><h:inputSecret value="#{accountsController.regBean.password}" id="password"  required="true" validatorMessage="Password is required"/></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel for="cpassword" value="Verify Password"  /></td>
+                            <td><h:inputSecret id="cpassword" value="#{accountsController.regBean.cpassword}" required="true" validatorMessage="Password must be verified"/></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="left"><h:commandButton value="Register" action="#{accountsController.registerUser()}" type="submit" />&nbsp;<h:commandButton value="Reset" type="reset"/>
+                            </td>
+                        </tr>
+                    </table>
                 </h:form>
             </div>
-        </ui:composition>
+        </ui:composition> 
     </h:body>
 </html>
 

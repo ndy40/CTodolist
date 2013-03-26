@@ -5,15 +5,15 @@
 package uk.sussex.bean.controllers;
 
 import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.Dependent;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import uk.ac.sussex.ejb.AccountEJBLocal;
+import uk.ac.sussex.entity.Group;
 import uk.ac.sussex.entity.User;
+import uk.ac.sussex.exceptions.DuplicateEmailException;
 import uk.sussex.bean.backing.Login;
 import uk.sussex.bean.backing.RegisterationBean;
 
@@ -21,7 +21,7 @@ import uk.sussex.bean.backing.RegisterationBean;
  *
  * @author ne51
  */
-@ManagedBean(name = "accountsController") 
+@ManagedBean(name = "accountsController")
 @ViewScoped
 public class AccountsController {
 
@@ -29,7 +29,6 @@ public class AccountsController {
     private RegisterationBean regBean;
     @EJB
     AccountEJBLocal accountsEJB;
-    
     @Inject
     private Login loginBean;
 
@@ -40,22 +39,28 @@ public class AccountsController {
     }
 
     public String registerUser() {
-        try{
-        User user = new User();
-        user.setFirstName(regBean.getFirstName());
-        user.setLastName(regBean.getLastName());
-        user.setEmail(regBean.getEmail());
-        user.setPassword(regBean.getPassword());
-        user.setTitle(regBean.getTitle());
-        accountsEJB.createUser(user);
-        regBean = new RegisterationBean();
-        FacesMessage success = new FacesMessage("User successfully created");
-        success.setSeverity(FacesMessage.SEVERITY_INFO);
-        FacesContext.getCurrentInstance().addMessage(null,success);
-        }catch(Exception ex){
-            FacesMessage msg = new FacesMessage("Error occured when creating user");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesMessage msg = null;
+        try {
+            if(!regBean.isValid())
+                throw new Exception("Passwords must match");
+            Group group = accountsEJB.getGroup("USER");
+            User user = new User();
+            user.setFirstName(regBean.getFirstName());
+            user.setLastName(regBean.getLastName());
+            user.setEmail(regBean.getEmail());
+            user.setPassword(regBean.getPassword());
+            user.setTitle(regBean.getTitle());
+            user.setGroup(group);
+            accountsEJB.createUser(user);
+            regBean = new RegisterationBean();
+            msg = new FacesMessage("User successfully created");
+            msg.setSeverity(FacesMessage.SEVERITY_INFO);
+        } catch (DuplicateEmailException ex) {
+            msg = new FacesMessage(ex.getMessage());
+        } catch (Exception ex) {
+            msg = new FacesMessage(ex.getMessage());
         }
+        FacesContext.getCurrentInstance().addMessage("regmessage", msg);
         return "index";
     }
 
@@ -72,11 +77,13 @@ public class AccountsController {
     public void setRegBean(RegisterationBean regBean) {
         this.regBean = regBean;
     }
-    
-    public String authenticate(){
-        if(getLoginBean() == null)
+
+    public String authenticate() {
+        if (getLoginBean() == null) {
             return "login_fail";
+        }
         
+
         return "login_success";
     }
 
