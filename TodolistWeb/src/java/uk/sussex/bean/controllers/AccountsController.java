@@ -4,6 +4,7 @@
  */
 package uk.sussex.bean.controllers;
 
+import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -23,7 +24,7 @@ import uk.sussex.bean.backing.RegisterationBean;
  */
 @ManagedBean(name = "accountsController")
 @ViewScoped
-public class AccountsController {
+public class AccountsController implements Serializable{
 
     @Inject
     private RegisterationBean regBean;

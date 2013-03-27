@@ -33,8 +33,8 @@
         <location>/errorpage.jsp</location>
     </error-page>
     <login-config>
-        <auth-method>FORM</auth-method>
-        <realm-name>jdbc-realm</realm-name>
+        <auth-method>BASIC</auth-method>
+        <realm-name>jdbcRealm</realm-name>
         <form-login-config>
             <form-login-page>/faces/index.xhtml</form-login-page>
             <form-error-page>/faces/loginerror.xhtml</form-error-page>
