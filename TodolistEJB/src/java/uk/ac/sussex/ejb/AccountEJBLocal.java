@@ -29,5 +29,9 @@ public interface AccountEJBLocal {
 
     public Group getGroup(String name);
 
+    public void createGroup(Group group);
+
+    public User getUser(String email, String password);
+
        
 }

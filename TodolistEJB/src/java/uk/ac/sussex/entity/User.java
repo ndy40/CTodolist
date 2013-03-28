@@ -26,7 +26,8 @@ import javax.validation.constraints.NotNull;
 @Table (name = "user_table")
 @NamedQueries ({
         @NamedQuery(name = "User.getAllUsers",query = "SELECT u FROM User u order by u.lastName,u.firstName,u.id"),
-        @NamedQuery(name = "User.getByEmail",query = "SELECT u FROM User u where u.email = :email")})
+        @NamedQuery(name = "User.getByEmail",query = "SELECT u FROM User u where u.email = :email"),
+        @NamedQuery(name = "User.getUserLogin",query = "SELECT u FROM User u WHERE u.email = :email and u.password = :password")})
 public class User implements Serializable {
     private static long serialVersionUID = 1L;
 

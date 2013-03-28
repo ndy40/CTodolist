@@ -5,8 +5,8 @@
     <jta-data-source>jndi/todolist</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="eclipselink.logging.thread" value="true"/>
       <property name="eclipselink.logging.session" value="true"/>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
     </properties>
   </persistence-unit>
 </persistence>

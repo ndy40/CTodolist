@@ -59,7 +59,7 @@ public class Group implements Serializable {
 
     @Override
     public String toString() {
-        return "uk.ac.sussex.entity.Groups[ id=" + id + " ]";
+        return name;
     }
 
     /**
