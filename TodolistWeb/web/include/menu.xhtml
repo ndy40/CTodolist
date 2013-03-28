@@ -9,17 +9,20 @@
     </h:head>
     <h:body>
         <ui:composition>
+            <h:form>
             <ul>
-                <c:if test="${login.isLogin() eq true}">
+                <c:if test="${login.isIsLogin() eq true}">
                     <c:choose>
                         <c:when test="${login.user.group eq 'User'}">
-                            <li><h:commandLink action="tasks.xhtml" value="Task"/></li>
-                            <li><h:commandLink action="profile.xhtml" value="Tasks"/></li>
+                            <li><a href="/user/faces/createtask.xhtml">Task</a></li>
+                            <li><a href="/user/faces/tasks.xhtml">Task</a></li>
+                            <li><a href="/user/faces/profile.xhtml">Profile</a></li>
                         </c:when>
                     </c:choose>
-                </c:if>
-                <li><h:commandLink action="#{accountsController.logout()}" value="Log out"/></li>
+                    <li><h:commandLink action="#{accountsController.logout()}" value="Log out"/></li>
+                </c:if>                
             </ul>
+            </h:form>
         </ui:composition>
     </h:body>
 </html>
