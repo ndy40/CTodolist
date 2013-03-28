@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/layout/common_tempate.xhtml">
+            <ui:define name="content">
+                <table>
+                    <tr><td colspan="2"><h:messages></h:messages></td></tr>
+                    <tr><td><label for="title">Title</label></td><td><h:inputText id="title" value="" ></h:inputText></td></tr>
+                    <tr><td><label for="title">Notes</label></td></tr>
+                    <tr><td><h:inputTextarea id="notes" ></h:inputTextarea></td></tr>
+                    <tr><td><label for="priority">Priority</label>&nbsp;<h:selectOneMenu id="priority">
+                                <f:selectItem value="4">Urgent</f:selectItem>
+                                <f:selectItem value="3">High</f:selectItem>
+                                <f:selectItem value="2">Normal</f:selectItem>
+                                <f:selectItem value="1">Low</f:selectItem>
+                            </h:selectOneMenu></td><td><label for="completed">Completed</label>&nbps;<h:selectBooleanCheckbox id="completed" ></h:selectBooleanCheckbox></td></tr>                  
+                    <tr><td><input type="submit" /></td></tr>
+                </table>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
