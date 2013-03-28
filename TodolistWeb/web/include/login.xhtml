@@ -8,14 +8,14 @@
     </h:head>
     <h:body>
         <ui:composition>
-            <form action="j_security_check" method="post">
+            <h:form>
             <table class="ignore">
                    <caption class="large">Login</caption>
-                   <tr><td><h:outputLabel value="Email" for="email"/></td><td><input type="text" name="j_username" id="email" /></td></tr>
-                <tr><td><h:outputLabel value="Password" for="password"/></td><td><input type="password" id="password" name="j_password" /></td></tr>
-                <tr><td></td><td><input name="submit" value="Login" type="submit" /></td></tr>                
+                   <tr><td><h:outputLabel value="Email" for="email"/></td><td><h:inputText id="email" value="#{login.email}"/></td></tr>
+                   <tr><td><h:outputLabel value="Password" for="password"/></td><td><h:inputText id="password" value="#{login.password}" /></td></tr>
+                   <tr><td></td><td><h:commandButton value="Login" action="#{accountsController.login()}" /> </td></tr>                
             </table>  
-            </form>
+            </h:form>
         </ui:composition>
     </h:body>
 </html>

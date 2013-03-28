@@ -7,6 +7,7 @@ package uk.sussex.bean.backing;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import uk.ac.sussex.entity.User;
 
 /**
  *
@@ -17,6 +18,7 @@ import javax.inject.Named;
 public class Login implements Serializable {
     private String email;
     private String password;
+    private User user;
     
     private boolean isLogin;
 
@@ -60,6 +62,20 @@ public class Login implements Serializable {
      */
     public void setIsLogin(boolean isLogin) {
         this.isLogin = isLogin;
+    }
+
+    /**
+     * @return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(User user) {
+        this.user = user;
     }
     
 }
