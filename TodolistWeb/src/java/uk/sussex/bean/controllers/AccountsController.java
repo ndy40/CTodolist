@@ -164,6 +164,6 @@ public class AccountsController implements Serializable {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         externalContext.invalidateSession();
         loginBean.setIsLogin(false);
-        externalContext.redirect(externalContext.getRequestContextPath()+"/index.xhtml");
+        externalContext.redirect(externalContext.getRequestContextPath()+"/faces/index.xhtml");
     }
 }
