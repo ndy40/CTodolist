@@ -43,17 +43,18 @@ public class LoginHelper extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        RequestDispatcher dispatcher = null;
+        
         try {
 
             if (loginBean.isIsLogin()) {
-                String page = "User".equals(loginBean.getUser().getGroup()) ? "/user/faces/index.xhtml" : "/admin/faces/index.xhtml";
-                dispatcher = getServletContext().getRequestDispatcher(page);
+                String page = "User".equals(loginBean.getUser().getGroup()) ? "/user/index.xhtml" : "/admin/index.xhtml";
+                response.sendRedirect(request.getContextPath()+page);
 
             } else {
-                dispatcher = getServletContext().getRequestDispatcher("/faces/index.xhtml");
+                
+                response.sendRedirect(request.getContextPath()+"/index.xhtml");
             }
-            dispatcher.forward(request, response);
+            
 
         } finally {
             out.close();

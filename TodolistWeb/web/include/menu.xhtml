@@ -14,9 +14,9 @@
                 <c:if test="${login.isIsLogin() eq true}">
                     <c:choose>
                         <c:when test="${login.user.group eq 'User'}">
-                            <li><a href="/user/faces/createtask.xhtml">Task</a></li>
-                            <li><a href="/user/faces/tasks.xhtml">Task</a></li>
-                            <li><a href="/user/faces/profile.xhtml">Profile</a></li>
+                            <li><a href="user/createtask.xhtml">Task</a></li>
+                            <li><a href="user/tasks.xhtml">Task</a></li>
+                            <li><a href="user/profile.xhtml">Profile</a></li>
                         </c:when>
                     </c:choose>
                     <li><h:commandLink action="#{accountsController.logout()}" value="Log out"/></li>

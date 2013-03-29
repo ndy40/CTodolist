@@ -6,6 +6,7 @@ package uk.sussex.bean.controllers;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -42,6 +43,8 @@ public class AccountsController implements Serializable {
     @Inject
     private Login loginBean;
     protected String originalUrl;
+    
+    private List<User> otherUsers;
 
     /**
      * Creates a new instance of AccountsController
@@ -164,6 +167,25 @@ public class AccountsController implements Serializable {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         externalContext.invalidateSession();
         loginBean.setIsLogin(false);
-        externalContext.redirect(externalContext.getRequestContextPath()+"/faces/index.xhtml");
+        externalContext.redirect(externalContext.getRequestContextPath()+"/index.xhtml");
     }
+
+    /**
+     * @return the otherUsers
+     */
+    public List<User> getOtherUsers() {
+        List<User> others = accountsEJB.getUsers();
+        //others.remove(loginBean.getUser());        
+        otherUsers = others;
+        return otherUsers;
+    }
+
+    /**
+     * @param otherUsers the otherUsers to set
+     */
+    public void setOtherUsers(List<User> otherUsers) {
+        this.otherUsers = otherUsers;
+    }
+    
+    
 }

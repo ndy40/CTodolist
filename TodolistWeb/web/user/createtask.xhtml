@@ -3,28 +3,32 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <ui:composition template="/layout/common_tempate.xhtml">
-            <ui:define name="content">
+<!--        <ui:composition >
+            <ui:define name="content"> -->
                 <table>
                     <tr><td colspan="2"><h:messages></h:messages></td></tr>
-                    <tr><td><label for="title">Title</label></td><td><h:inputText id="title" value="" ></h:inputText></td></tr>
+                    <tr><td><label for="title">Title</label></td><td><h:inputText id="title" value="#{taskBean.title}" ></h:inputText></td></tr>
                     <tr><td><label for="title">Notes</label></td></tr>
-                    <tr><td><h:inputTextarea id="notes" ></h:inputTextarea></td></tr>
-                    <tr><td><label for="priority">Priority</label>&nbsp;<h:selectOneMenu id="priority">
-                                <f:selectItem value="4">Urgent</f:selectItem>
-                                <f:selectItem value="3">High</f:selectItem>
-                                <f:selectItem value="2">Normal</f:selectItem>
-                                <f:selectItem value="1">Low</f:selectItem>
-                            </h:selectOneMenu></td><td><label for="completed">Completed</label>&nbps;<h:selectBooleanCheckbox id="completed" ></h:selectBooleanCheckbox></td></tr>                  
+                    <tr><td colspan="2"><h:inputTextarea id="notes" cols="50" rows="15" value="#{taskBean.note}"></h:inputTextarea></td></tr>
+                    <tr><td><label for="assignTo">Assign To</label>&nbsp;<h:selectOneMenu id="assignedTo" value="#{taskBean.assignedUser}">
+                                <f:selectItems value="#{accountsController.otherUsers}" var="user" itemValue="#{user.id}" itemLabel="#{user}"/>
+                            </h:selectOneMenu></td><td><label for="dueDate">Due Date</label>&nbps;<p:calendar id="dueDate" value="#{taskBean.dueDate}" /></td></tr>
+                                
+                    <tr><td><label for="priority">Priority</label>&nbsp;<h:selectOneMenu id="priority" value="#{taskBean.priority}">
+                                <f:selectItem itemLabel="URGENT" itemValue="4"></f:selectItem>
+                                <f:selectItem itemLabel="HIGH" itemValue="3"></f:selectItem>
+                                <f:selectItem itemLabel="NORMAL" itemValue="2"></f:selectItem>
+                                <f:selectItem itemLabel="LOW" itemValue="1"></f:selectItem>
+                            </h:selectOneMenu></td><td><label for="completed">Completed</label>&nbps;<h:selectBooleanCheckbox id="completed" value="#{taskBean.completed}"></h:selectBooleanCheckbox></td></tr>                  
                     <tr><td><input type="submit" /></td></tr>
                 </table>
-            </ui:define>
-        </ui:composition>
+<!--            </ui:define>
+        </ui:composition>-->
     </h:body>
 </html>
 
