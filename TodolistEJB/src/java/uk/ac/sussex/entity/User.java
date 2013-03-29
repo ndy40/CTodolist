@@ -105,7 +105,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "uk.ac.sussex.entity.User[ id=" + getId() + " ]";
+        return firstName + " "+lastName;
     }
 
     /**
