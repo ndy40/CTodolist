@@ -47,12 +47,12 @@ public class LoginHelper extends HttpServlet {
         try {
 
             if (loginBean.isIsLogin()) {
-                String page = "User".equals(loginBean.getUser().getGroup()) ? "/user/index.xhtml" : "/admin/index.xhtml";
+                String page = "User".equals(loginBean.getUser().getGroup()) ? "user/index.xhtml" : "admin/index.xhtml";
                 response.sendRedirect(request.getContextPath()+page);
 
             } else {
                 
-                response.sendRedirect(request.getContextPath()+"/index.xhtml");
+                response.sendRedirect(request.getContextPath()+"index.xhtml");
             }
             
 

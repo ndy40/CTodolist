@@ -17,7 +17,6 @@ import javax.validation.constraints.Size;
  */
 @Named (value = "regBean")
 @RequestScoped
-@FacesValidator(value = "uk.sussex.bean.RegPassword")
 public class RegisterationBean implements Serializable{
     @NotNull
     @Size(min = 3, max = 20,message = "First name must be at least 3 letters")

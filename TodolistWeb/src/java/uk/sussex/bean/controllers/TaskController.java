@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import uk.ac.sussex.ejb.AccountEJBLocal;
@@ -36,7 +38,7 @@ public class TaskController implements Serializable {
     @Inject
     Login login;
     @Inject
-    TaskBean taskBean;
+    private TaskBean taskBean;
     
     Paginator pagination;
 
@@ -44,28 +46,31 @@ public class TaskController implements Serializable {
      * Creates a new instance of TaskController
      */
     public TaskController() {
-        
-        pagination = new Paginator();
+        pagination = new Paginator();        
     }
 
     public String createTask() {
         FacesMessage messages = new FacesMessage();
         try {
             Task task = new Task();
-            User assignedUser = accountEJB.getUser(taskBean.getAssignedUser());
+            User assignedUser = accountEJB.getUser(getTaskBean().getAssignedUser());
             task.setAssignedTo(assignedUser);
-            task.setTitle(taskBean.getTitle());
-            task.setNote(taskBean.getNote());
-            task.setDueDate(taskBean.getDueDate());
+            task.setTitle(getTaskBean().getTitle());
+            task.setNote(getTaskBean().getNote());
+            task.setDueDate(getTaskBean().getDueDate());
             task.setCreateDate(new Date());
-            task.setPriority(taskBean.getPriority());
+            task.setPriority(getTaskBean().getPriority());
+            task.setCompleted(getTaskBean().isCompleted());
+            task.setAssignedTo(assignedUser);
+            task.setOwner(login.getUser());
             taskEJB.createTask(task);
-            messages.setSummary("Task created!!  ");
+            taskBean = new TaskBean();
+            messages.setSummary("Task created!!  ");            
         } catch (Exception ex) {
             messages.setSummary(ex.getMessage());
         }
         FacesContext.getCurrentInstance().addMessage(null, messages);
-        return "createTask.xhtml";
+        return "createtask";
     }
 
     public List<Task> getOwnTask() {
@@ -76,4 +81,19 @@ public class TaskController implements Serializable {
     public List<Task> getAssignedTask() {
         return null;
     }
+
+    /**
+     * @return the taskBean
+     */
+    public TaskBean getTaskBean() {
+        return taskBean;
+    }
+
+    /**
+     * @param taskBean the taskBean to set
+     */
+    public void setTaskBean(TaskBean taskBean) {
+        this.taskBean = taskBean;
+    }    
+   
 }
