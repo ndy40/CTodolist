@@ -33,5 +33,7 @@ public interface AccountEJBLocal {
 
     public User getUser(String email, String password);
 
+    public void updateUser(User user);
+
        
 }

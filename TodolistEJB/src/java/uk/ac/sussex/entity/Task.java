@@ -46,9 +46,12 @@ public class Task implements Serializable {
     @NotNull
     private boolean completed;
     @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner",referencedColumnName = "id")
     @NotNull
     private User owner;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assignedto",referencedColumnName = "id")
+    @NotNull
     private User assignedTo;
     
     private int priority;

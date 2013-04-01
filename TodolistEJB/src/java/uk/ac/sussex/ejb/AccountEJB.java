@@ -40,7 +40,7 @@ public class AccountEJB implements AccountEJBLocal {
 
     @Override
     public User getUser(long userId) {
-        return null;
+        return em.find(User.class, userId);
     }
 
     @Override
@@ -100,5 +100,10 @@ public class AccountEJB implements AccountEJBLocal {
     @Override
     public void createGroup(Group group) {
         persist(group);
+    }
+    
+    @Override
+    public void updateUser(User user){
+        em.merge(user);
     }
 }

@@ -5,6 +5,7 @@
 package uk.ac.sussex.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -192,4 +193,10 @@ public class User implements Serializable {
         this.group = group;
     }
     
+    public void addTask(Task task){
+        if(ownTask != null){
+            ownTask = new  ArrayList<Task>();
+        }
+        ownTask.add(task);
+    }
 }
