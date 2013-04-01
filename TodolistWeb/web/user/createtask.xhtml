@@ -10,23 +10,24 @@
     <h:body>
 <!--        <ui:composition >
             <ui:define name="content"> -->
-                <table>
+
+<h:form><table>
                     <tr><td colspan="2"><h:messages></h:messages></td></tr>
-                    <tr><td><label for="title">Title</label></td><td><h:inputText id="title" value="#{taskBean.title}" ></h:inputText></td></tr>
+                    <tr><td><label for="title">Title</label></td><td><h:inputText id="title" value="#{taskController.taskBean.title}" ></h:inputText></td></tr>
                     <tr><td><label for="title">Notes</label></td></tr>
-                    <tr><td colspan="2"><h:inputTextarea id="notes" cols="50" rows="15" value="#{taskBean.note}"></h:inputTextarea></td></tr>
-                    <tr><td><label for="assignTo">Assign To</label>&nbsp;<h:selectOneMenu id="assignedTo" value="#{taskBean.assignedUser}">
+                    <tr><td colspan="2"><h:inputTextarea id="notes" cols="50" rows="15" value="#{taskController.taskBean.note}"></h:inputTextarea></td></tr>
+                    <tr><td><label for="assignTo">Assign To</label>&nbsp;<h:selectOneMenu id="assignedTo" value="#{taskController.taskBean.assignedUser}">
                                 <f:selectItems value="#{accountsController.otherUsers}" var="user" itemValue="#{user.id}" itemLabel="#{user}"/>
                             </h:selectOneMenu></td><td><label for="dueDate">Due Date</label>&nbps;<p:calendar id="dueDate" value="#{taskBean.dueDate}" /></td></tr>
                                 
-                    <tr><td><label for="priority">Priority</label>&nbsp;<h:selectOneMenu id="priority" value="#{taskBean.priority}">
+                    <tr><td><label for="priority">Priority</label>&nbsp;<h:selectOneMenu id="priority" value="#{taskController.taskBean.priority}">
                                 <f:selectItem itemLabel="URGENT" itemValue="4"></f:selectItem>
                                 <f:selectItem itemLabel="HIGH" itemValue="3"></f:selectItem>
                                 <f:selectItem itemLabel="NORMAL" itemValue="2"></f:selectItem>
                                 <f:selectItem itemLabel="LOW" itemValue="1"></f:selectItem>
-                            </h:selectOneMenu></td><td><label for="completed">Completed</label>&nbps;<h:selectBooleanCheckbox id="completed" value="#{taskBean.completed}"></h:selectBooleanCheckbox></td></tr>                  
-                    <tr><td><input type="submit" /></td></tr>
-                </table>
+                            </h:selectOneMenu></td><td><label for="completed">Completed</label>&nbps;<h:selectBooleanCheckbox id="completed" value="#{taskController.taskBean.completed}"></h:selectBooleanCheckbox></td></tr>                  
+                    <tr><td colspan="2"><h:commandButton action="#{taskController.createTask()}" id="createTask" value="Save"/>&nbsp;<h:commandButton type="reset" value="Clear" /></td></tr>
+    </table> </h:form>
 <!--            </ui:define>
         </ui:composition>-->
     </h:body>

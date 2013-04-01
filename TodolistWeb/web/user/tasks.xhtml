@@ -9,10 +9,10 @@
     <h:body>
         <f:view>
             <div>
-                Search Panel
+                
             </div>
             <h:form>
-                <h:dataTable value="#{taskController.assignedTask}" var="item">
+                <h:dataTable value="#{taskController.ownTask}" var="item" id="taskGrid">
                     <h:column>
                         <f:facet name="header">
                             Title
