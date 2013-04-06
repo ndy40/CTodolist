@@ -5,6 +5,7 @@
 package uk.ac.sussex.entity;
 
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,10 +26,21 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "Tasks")
 public class Task implements Serializable {
+    
     private static final long serialVersionUID = 1L;
-    @Id
+    
+     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+     public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
     @Column(length = 100,nullable = false)
     @NotNull
     private String title;
@@ -46,24 +58,19 @@ public class Task implements Serializable {
     @NotNull
     private boolean completed;
     @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner",referencedColumnName = "id")
+    @JoinColumn(name = "owner_id")
     @NotNull
     private User owner;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assignedto",referencedColumnName = "id")
+    @JoinColumn(name = "assignedto")
     @NotNull
     private User assignedTo;
-    
+    @Column
+    @NotNull
     private int priority;
     
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+   
 
     @Override
     public int hashCode() {
@@ -153,5 +160,7 @@ public class Task implements Serializable {
     public void setPriority(int priority) {
         this.priority = priority;
     }
+
+   
     
 }

@@ -22,8 +22,12 @@ public interface TaskEJBLocal {
 
     void delete(Task task);
 
-    java.util.List<Task> getTasks(User owner, User assigned, boolean status,String orderBy, Date startDate, Date endDate, int startIndex, int maxSize);
+    java.util.List<Task> getTasks(User owner, User assigned, int status,Date startDate, Date endDate, int startIndex, int maxSize);
 
-    public int getTasksCount(User owner, User assigned, boolean status, String orderBy, Date startDate, Date endDate);
+    public int getTasksCount(User owner, User assigned, int status, Date startDate, Date endDate);
+
+    public Task getTask(long id);
+
+    public void delete(long id);
     
 }

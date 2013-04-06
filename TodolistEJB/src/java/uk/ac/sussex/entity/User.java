@@ -14,7 +14,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -67,12 +66,11 @@ public class User implements Serializable {
     private String title;
     
     @OneToOne
-    @JoinTable(name = "USER_GROUPS",joinColumns = @JoinColumn(name = "USER_ID",referencedColumnName = "id")
-        ,inverseJoinColumns = @JoinColumn(name = "GROUP_ID",referencedColumnName = "id"))
+    @JoinTable(name = "USER_GROUPS",joinColumns = @JoinColumn(name = "USER_ID"))
     private Group group;
     
     @OneToMany(mappedBy = "owner")
-    @JoinColumn(name = "owner",nullable = false)
+    @JoinColumn(name = "owner_id",nullable = false)
     private List<Task> ownTask;   
     
 
@@ -92,16 +90,20 @@ public class User implements Serializable {
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
-            return false;
-        }
-        User other = (User) object;
-        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public boolean equals(Object obj) {
+        if (obj == null) {
+    return false;
+  }
+  if (getClass() != obj.getClass()) {
+    return false;
+  }
+  final User other = (User) obj;
+  if (this.id != other.id &&
+      (this.id == null || !this.id.equals(other.id))) {
+    return false;
+  }
+  return true;
+        
     }
 
     @Override
