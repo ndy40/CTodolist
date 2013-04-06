@@ -7,8 +7,7 @@ package uk.sussex.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
-import javax.inject.Inject;
-import javax.servlet.RequestDispatcher;
+import javax.faces.bean.ManagedProperty;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,7 +25,6 @@ public class LoginHelper extends HttpServlet {
 
     @EJB
     AccountEJBLocal accountEJB;
-    @Inject
     Login loginBean;
 
     /**
@@ -45,9 +43,10 @@ public class LoginHelper extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         try {
+            loginBean = (Login) request.getSession().getAttribute("user");
 
             if (loginBean.isIsLogin()) {
-                String page = "User".equals(loginBean.getUser().getGroup()) ? "user/index.xhtml" : "admin/index.xhtml";
+                String page = "User".equalsIgnoreCase(loginBean.getUser().getGroup().toString()) ? "/user/index.xhtml" : "/admin/index.xhtml";
                 response.sendRedirect(request.getContextPath()+page);
 
             } else {

@@ -4,3 +4,9 @@
 *.jar
 *.war
 *.ear
+/TodolistEJB/nbproject/private/
+/TodolistWeb/nbproject/private/
+/TodolistEJB/build/
+/TodolistEJB/dist/
+/TodolistWeb/build/
+/TodolistWeb/dist/
