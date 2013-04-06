@@ -13,13 +13,17 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import jsf.util.JsfUtil;
 import uk.ac.sussex.ejb.AccountEJBLocal;
 import uk.ac.sussex.entity.Group;
 import uk.ac.sussex.entity.User;
@@ -33,14 +37,14 @@ import uk.sussex.bean.backing.RegisterationBean;
  * @author ne51
  */
 @ManagedBean(name = "accountsController")
-@ViewScoped
+@RequestScoped
 public class AccountsController implements Serializable {
 
-    @Inject
+    @ManagedProperty(value = "#{regBean}") 
     private RegisterationBean regBean;
     @EJB
-    AccountEJBLocal accountsEJB;
-    @Inject
+    private AccountEJBLocal accountsEJB;
+    @ManagedProperty(value = "#{loginBean}")
     private Login loginBean;
     protected String originalUrl;
     
@@ -49,7 +53,7 @@ public class AccountsController implements Serializable {
     /**
      * Creates a new instance of AccountsController
      */
-    public AccountsController() {
+    public AccountsController() {                
     }
 
     @PostConstruct
@@ -58,7 +62,7 @@ public class AccountsController implements Serializable {
         originalUrl = (String) extContext.getRequestMap().get(RequestDispatcher.FORWARD_REQUEST_URI);
 
         if (originalUrl == null) {
-            originalUrl = extContext.getRequestContextPath() + "/LoginHelper";
+            originalUrl = extContext.getRequestContextPath() + "/HelperServlet";
         } else {
             String originalQuery = (String) extContext.getRequestMap().get(RequestDispatcher.FORWARD_QUERY_STRING);
 
@@ -75,7 +79,7 @@ public class AccountsController implements Serializable {
             if (!regBean.isValid()) {
                 throw new Exception("Passwords must match");
             }
-            Group group = accountsEJB.getGroup(1);
+            Group group = getAccountsEJB().getGroup(1);
             User user = new User();
             user.setFirstName(regBean.getFirstName());
             user.setLastName(regBean.getLastName());
@@ -83,7 +87,7 @@ public class AccountsController implements Serializable {
             user.setPassword(regBean.getPassword());
             user.setTitle(regBean.getTitle());
             user.setGroup(group);
-            accountsEJB.createUser(user);
+            getAccountsEJB().createUser(user);
             regBean = new RegisterationBean();
             msg = new FacesMessage("User successfully created");
             msg.setSeverity(FacesMessage.SEVERITY_INFO);
@@ -139,45 +143,44 @@ public class AccountsController implements Serializable {
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
         FacesMessage message = new FacesMessage();
         try {
-            User user = accountsEJB.getUser(loginBean.getEmail(), loginBean.getPassword());
-            if (user != null) {
+            User user = getAccountsEJB().getUser(loginBean.getEmail(), loginBean.getPassword());
+            if (user != null && request.getUserPrincipal() == null) {
                 request.login(user.getEmail(), user.getPassword());
                 loginBean.setUser(user);
                 loginBean.setIsLogin(true);
                 externalContext.getSessionMap().put("user", loginBean);
                 externalContext.redirect(originalUrl);
-            } else {
-                throw new InvalidLoginException("Login failed. Check details and try again");
+            } else if(loginBean.isIsLogin()) {
+                loginBean.setIsLogin(true);
+                externalContext.getSessionMap().put("user", loginBean);
+                externalContext.redirect(originalUrl);
             }
 
-        } catch (InvalidLoginException ex) {
-            message.setSummary(ex.getMessage());
-            Logger.getLogger(AccountsController.class.getName()).log(Level.INFO, ex.getMessage());
         } catch(ServletException ex){
-            message.setSummary("Unknown login");
+            message.setSummary(ex.getMessage());
             message.setSeverity(FacesMessage.SEVERITY_ERROR);
             context.addMessage(null, message);
         }catch (Exception ex) {
             message.setSummary(ex.getMessage());
             Logger.getLogger(AccountsController.class.getName()).log(Level.SEVERE, ex.getMessage());
         }
+        
     }
     
     public void logout() throws IOException{
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         externalContext.invalidateSession();
         loginBean.setIsLogin(false);
-        externalContext.redirect(externalContext.getRequestContextPath()+"/index.xhtml");
+        externalContext.redirect(externalContext.getRequestContextPath()+"/login.xhtml");
     }
 
     /**
      * @return the otherUsers
      */
-    public List<User> getOtherUsers() {
-        List<User> others = accountsEJB.getUsers();
-        //others.remove(loginBean.getUser());        
-        otherUsers = others;
-        return otherUsers;
+    public SelectItem[] getOtherUsers() {
+        List<User> others = getAccountsEJB().getUsers();
+        others.remove(loginBean.getUser());  
+        return JsfUtil.getSelectItems(others, true);
     }
 
     /**
@@ -185,6 +188,13 @@ public class AccountsController implements Serializable {
      */
     public void setOtherUsers(List<User> otherUsers) {
         this.otherUsers = otherUsers;
+    }
+
+    /**
+     * @return the accountsEJB
+     */
+    public AccountEJBLocal getAccountsEJB() {
+        return accountsEJB;
     }
     
     

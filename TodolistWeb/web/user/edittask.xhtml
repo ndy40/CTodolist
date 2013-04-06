@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/layout/common_template.xhtml">
+            <ui:define name="sidebar">
+                <ui:include src="/include/menu/task_sidebar.xhtml"/>
+            </ui:define>
+            <ui:define name="maincontent"> 
+                <h:form>
+                <c:set value="#{param.action}" var="action" />
+                <c:choose>
+                    <c:when test="${action eq 'view'}">
+                        <c:set var="viewMode" value="true" />
+                        <c:set var="headerTitle" value="View Task" />
+                    </c:when>
+                    <c:otherwise>
+                        <c:set value="viewMode" var="false"/>
+                        <c:set var="headerTitle" value="Edit Task" />
+                    </c:otherwise>
+                </c:choose>
+                    <div class="full_w">
+                        <div class="h_title"><h:outputText value="#{headerTitle}" /></div>
+                        <h:messages globalOnly="true" infoClass="n_ok" errorClass="n_error" layout="table"> </h:messages>
+                        <h:inputHidden id="taskId" value="#{taskController.taskBean.taskId}"/>
+                        <h:inputHidden id="ownerId" value="#{taskController.taskBean.owner}"/>
+                        <h:panelGrid columns="3">
+                            <h:outputLabel for="title" value="Title" />
+                            <h:inputText id="title" value="#{taskController.taskBean.title}" disabled="#{viewMode}">
+                            </h:inputText><h:message for="title" id="titleMessage"/>
+
+                            <h:outputLabel for="notes" value="Notes"/>
+                            <h:inputTextarea id="notes" cols="50" rows="15" value="#{taskController.taskBean.note}" disabled="#{viewMode}"></h:inputTextarea>
+                            <h:message id="notesMessage" for="notes"/>
+
+                            <h:outputLabel for="assignedTo" value="Assign To"/>
+                            <h:selectOneMenu id="assignedTo" value="#{taskController.taskBean.assignedUser}" disabled="#{viewMode}">
+                                <f:selectItems value="#{accountsController.otherUsers}" var="user" itemValue="#{user.id}" itemLabel="#{user}"/>
+                            </h:selectOneMenu>
+                            <h:message id="assignedMessage" for="assignedTo"/>
+
+                            <h:outputLabel for="dueDate" value="Due Date" />
+                            <h:inputText id="dueDate" value="#{taskController.taskBean.dueDate}" styleClass="dateInput"  disabled="#{viewMode}">
+                                <f:convertDateTime dateStyle="short" pattern="dd/MM/yyyy" />
+                            </h:inputText>
+                            <h:message id="dueDateMessage" for="dueDate"/>
+
+                            <h:outputLabel for="priority" value="Priority"/>
+                            <h:selectOneMenu id="priority" value="#{taskController.taskBean.priority}" disabled="#{viewMode}">
+                                <f:selectItem itemLabel="URGENT" itemValue="4"></f:selectItem>
+                                <f:selectItem itemLabel="HIGH" itemValue="3"></f:selectItem>
+                                <f:selectItem itemLabel="NORMAL" itemValue="2"></f:selectItem>
+                                <f:selectItem itemLabel="LOW" itemValue="1"></f:selectItem>
+                            </h:selectOneMenu> 
+                            <h:message id="priorityMessage" for="priority"/>
+
+                            <h:outputLabel for="completed" value="Completed"/>
+                            <h:selectBooleanCheckbox id="completed" value="#{taskController.taskBean.completed}"></h:selectBooleanCheckbox>
+                            <h:message id="completedMessage" for="completed"/>
+                            <h:panelGroup></h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton actionListener="#{taskController.updateTask()}" id="createTask" value="Save" style="margin-right: 5px;" styleClass="ok"/><h:commandButton type="reset" value="Clear" rendered="#{viewMode}"/><h:commandLink styleClass="button" value="Cancel" action="tasks.xhtml" rendered="#{not viewMode}"/> </h:panelGroup>                   
+                        </h:panelGrid>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

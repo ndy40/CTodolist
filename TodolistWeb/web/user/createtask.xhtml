@@ -3,33 +3,65 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://java.sun.com/jsf/core" 
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-<!--        <ui:composition >
-            <ui:define name="content"> -->
+        
+         <ui:composition template="/layout/common_template.xhtml">
+<!--             Call to initialize TaskBean-->
+            #{taskController.clearDefaults()}
+            <ui:define name="sidebar">
+                <ui:include src="/include/menu/task_sidebar.xhtml"/>
+            </ui:define>
+            <ui:define name="maincontent"> 
+                <h:form>
+                    <div class="full_w">
+                        <div class="h_title">Add New Task</div>
+                        <h:messages infoClass="no_ok" errorClass="no_error"></h:messages>
+                        <h:panelGrid columns="3" styleClass="no-table">
+                            <h:outputLabel for="title" value="Title" />
+                            <h:inputText id="title" value="#{taskController.selected.title}">
+                            </h:inputText><h:message for="title" id="titleMessage"/>
 
-<h:form><table>
-                    <tr><td colspan="2"><h:messages></h:messages></td></tr>
-                    <tr><td><label for="title">Title</label></td><td><h:inputText id="title" value="#{taskController.taskBean.title}" ></h:inputText></td></tr>
-                    <tr><td><label for="title">Notes</label></td></tr>
-                    <tr><td colspan="2"><h:inputTextarea id="notes" cols="50" rows="15" value="#{taskController.taskBean.note}"></h:inputTextarea></td></tr>
-                    <tr><td><label for="assignTo">Assign To</label>&nbsp;<h:selectOneMenu id="assignedTo" value="#{taskController.taskBean.assignedUser}">
-                                <f:selectItems value="#{accountsController.otherUsers}" var="user" itemValue="#{user.id}" itemLabel="#{user}"/>
-                            </h:selectOneMenu></td><td><label for="dueDate">Due Date</label>&nbps;<p:calendar id="dueDate" value="#{taskBean.dueDate}" /></td></tr>
-                                
-                    <tr><td><label for="priority">Priority</label>&nbsp;<h:selectOneMenu id="priority" value="#{taskController.taskBean.priority}">
+                            <h:outputLabel for="notes" value="Notes"/>
+                            <h:inputTextarea id="notes" cols="50" rows="15" value="#{taskController.selected.note}"></h:inputTextarea>
+                            <h:message id="notesMessage" for="notes"/>
+
+                            <h:outputLabel for="assignedTo" value="Assign To"/>
+                            <h:selectOneMenu id="assignedTo" value="#{taskController.selected.assignedUser}">
+                                <f:selectItems value="#{accountsController.otherUsers}" />
+                              </h:selectOneMenu>
+                            <h:message id="assignedMessage" for="assignedTo"/>
+
+                            <h:outputLabel for="dueDate" value="Due Date" />
+                            <h:inputText id="dueDate" value="#{taskController.selected.dueDate}" styleClass="dateInput" >
+                                <f:convertDateTime dateStyle="short" type="date" />
+                            </h:inputText>
+                            <h:message id="dueDateMessage" for="dueDate"/>
+
+                            <h:outputLabel for="priority" value="Priority" />
+                            <h:selectOneMenu id="priority" value="#{taskController.selected.priority}">
                                 <f:selectItem itemLabel="URGENT" itemValue="4"></f:selectItem>
                                 <f:selectItem itemLabel="HIGH" itemValue="3"></f:selectItem>
                                 <f:selectItem itemLabel="NORMAL" itemValue="2"></f:selectItem>
                                 <f:selectItem itemLabel="LOW" itemValue="1"></f:selectItem>
-                            </h:selectOneMenu></td><td><label for="completed">Completed</label>&nbps;<h:selectBooleanCheckbox id="completed" value="#{taskController.taskBean.completed}"></h:selectBooleanCheckbox></td></tr>                  
-                    <tr><td colspan="2"><h:commandButton action="#{taskController.createTask()}" id="createTask" value="Save"/>&nbsp;<h:commandButton type="reset" value="Clear" /></td></tr>
-    </table> </h:form>
-<!--            </ui:define>
-        </ui:composition>-->
+                            </h:selectOneMenu> 
+                            <h:message id="priorityMessage" for="priority"/>
+
+                            <h:outputLabel for="completed" value="Completed"/>
+                            <h:selectBooleanCheckbox id="completed" value="#{taskController.selected.completed}"></h:selectBooleanCheckbox>
+                            <h:message id="completedMessage" for="completed"/>
+                            <h:panelGroup></h:panelGroup>
+                            <h:panelGroup>
+                                <h:commandButton action="#{taskController.createTask}" id="createTask" value="Save" style="margin-right: 5px;" styleClass="add"/><h:commandButton type="reset" value="Clear" /> </h:panelGroup>                   
+                        </h:panelGrid>
+                    </div>
+                </h:form>
+            </ui:define>
+        </ui:composition>
     </h:body>
 </html>
 

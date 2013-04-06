@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/layout/logintemplate.xhtml" xmlns:ui="http://java.sun.com/jsf/facelets">
+            <ui:define name="maincontent">                
+                <h:form>
+                    <h:outputLabel value="Email" for="email"/>
+                    <h:inputText id="email" value="#{loginBean.email}" styleClass="text"/>
+                    <h:message for="email" id="emailMessage"/>
+
+                    <h:outputLabel value="Password" for="password"/>
+                    <h:inputSecret id="password" value="#{loginBean.password}" requiredMessage="password must be provided" styleClass="text"/>
+                    <h:message for="password" id="passwordMessage"/>
+                    <div class="sep"> </div>                              
+                    <h:commandButton value="Login" action="#{accountsController.login()}" id="loginBtn" styleClass="ok"/>   
+                    <h:commandLink value="Forgotten Password?" action="#{accountsController.login()}" styleClass="button"/>        
+
+                </h:form>
+                <div class="sep"></div>
+                <h:form>
+                     <h:commandLink value="New Account" action="registration" styleClass="button" />   
+                </h:form>
+            </ui:define> 
+        </ui:composition>
+    </h:body>
+</html>
+

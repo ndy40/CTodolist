@@ -5,24 +5,31 @@
 package uk.sussex.bean.backing;
 
 import java.util.Date;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author ne51
  */
-@Named
-@RequestScoped
+
 public class TaskBean {
-    private String title;
+     private String title;
     private String note;
+    
     private boolean completed;
+    
     private Date dueDate;
+    
     private Date createdDate;
+    
     private long assignedUser;
+    
     private long owner;
+    
     private int priority;
+    
+    private long taskId;
 
     /**
      * @return the title
@@ -134,6 +141,20 @@ public class TaskBean {
      */
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    /**
+     * @return the taskId
+     */
+    public long getTaskId() {
+        return taskId;
+    }
+
+    /**
+     * @param taskId the taskId to set
+     */
+    public void setTaskId(long taskId) {
+        this.taskId = taskId;
     }
     
 }

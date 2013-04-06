@@ -13,5 +13,6 @@
     </head>
     <body>
         OOPS!! an error occurred while trying to service your request.
+        <%= exception.getLocalizedMessage() %>
     </body>
 </html>

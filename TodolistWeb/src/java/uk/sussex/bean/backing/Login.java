@@ -5,18 +5,22 @@
 package uk.sussex.bean.backing;
 
 import java.io.Serializable;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.validation.constraints.NotNull;
 import uk.ac.sussex.entity.User;
 
 /**
  *
  * @author ne51
  */
-@Named (value = "login")
+
+@ManagedBean (name = "loginBean",eager = true)
 @SessionScoped
 public class Login implements Serializable {
+    @NotNull(message = "Provide email address to login")
     private String email;
+    @NotNull(message = "Provide login password")
     private String password;
     private User user;
     
