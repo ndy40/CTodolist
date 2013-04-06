@@ -2,40 +2,82 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      >
     <h:head>
-        <title>Todo List Manager</title>
-        <h:outputStylesheet library="blueprint" name="screen.css"/>
-        <h:outputStylesheet library="blueprint" name="print.css"/>
-        <style type="text/css">
-            table tr:nth-child(even) td {
-                background: transparent;
-            }
-            table.ignore {
-                background: none;
-            }
-        </style>
+        <h:outputStylesheet library="css" name="style.css"/>
+        <h:outputStylesheet library="css" name="navi.css"/>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css"/>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js">
+            
+        </script>
+        <script type="text/javascript" src="http://code.jquery.com/ui/1.10.2/jquery-ui.js">
+            
+        </script>
+        <script type="text/javascript">
+            $(function() {
+                $(".box .h_title").not(this).next("ul").hide("normal");
+                $(".box .h_title").not(this).next("#home").show("normal");
+                $(".box").children(".h_title").click(function() {
+                    $(this).next("ul").slideToggle();
+                });
+                $(".dateInput").datepicker({dateFormat:"dd/mm/yy"});
+            });
+        </script>
+
     </h:head>
     <h:body>
-          <div class="container">
-            <div class="span-24">
-                <ui:insert name="header">
-                    Some header
-                </ui:insert>
+        
+            <div class="wrap">
+                
+                <div id="header">
+                    <h:form>
+                    <div id="top">
+                        <c:if test="#{loginBean.isLogin eq true}">
+                            <div class="left">
+
+                                <p>Welcome, <strong><h:outputText value="#{loginBean.user}" /></strong> [ <h:commandLink action="#{accountsController.logout()}" value="Logout"/>]</p>
+                            </div>
+                        </c:if>
+                        
+                    </div>
+                    </h:form>
+                    <div id="nav">
+                        <ui:insert name="menu">
+                            <ui:include src="/include/menu/user_menu.xhtml"/>
+                        </ui:insert>
+                    </div>
+                </div>
+                <!--            insert contents here-->
+                <div id="content">
+                    <!--                    Side bar -->
+                    
+                    <div id="sidebar">
+                        <ui:insert name="sidebar" />                   
+                    </div>
+                    
+                    <!--                end of sidebar-->
+<!--                    Beginning of main content-->
+                    <div id="main">
+                        
+                            <ui:insert name="maincontent"></ui:insert>
+                        
+                        
+                    </div>
+                </div>
+                <!--            end of content area-->
+                <div id="footer">
+                    <div class="left">
+                        <!--                        <p>Design: <a href="http://kilab.pl">Paweł Balicki</a> | Admin Panel: <a href="">YourSite.com</a></p>-->
+                    </div>
+                    <div class="right">
+                        <!--                        <p><a href="">Example link 1</a> | <a href="">Example link 2</a></p>-->
+                    </div>
+                </div>
+
             </div>
-              <div class="span-10 last">
-                  <ui:include src="/include/menu.xhtml"/>
-              </div>
-              <div class="span-24"><h:form><h:messages class="info"></h:messages></h:form></div>
-            <div class="span-24">
-                <ui:insert name="content">
-                    some content
-                </ui:insert>
-            </div>
-            <div class="span-24">
-                <ui:insert name="footer">Some footer</ui:insert>
-            </div>
-        </div>
+         
     </h:body>
 </html>
 
