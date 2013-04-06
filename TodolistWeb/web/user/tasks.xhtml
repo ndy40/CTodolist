@@ -2,40 +2,48 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <f:view>
-            <div>
-                
-            </div>
-            <h:form>
-                <h:dataTable value="#{taskController.ownTask}" var="item" id="taskGrid">
+        <ui:composition template="/layout/common_template.xhtml">   
+            
+            <ui:define name="sidebar">
+                <ui:include src="/include/menu/task_sidebar.xhtml"/>
+            </ui:define>
+            
+            <ui:define name="maincontent">                
+                <h:form>
+                    <ui:include src="/include/forms/taskSearchTemplate.xhtml"/>
+                    <div class="full_w">
+                    <div class="h_title">Task List</div>
+                    <c:choose id="displayTask">
+                    <c:when test="#{taskController.taskCollection.size() gt 0}">
+<!--                        create grid view for viewing-->
+                    <h:messages ></h:messages>
+                    <h:dataTable value="#{taskController.taskCollection}" var="item" id="taskList">
                     <h:column>
                         <f:facet name="header">
                             Title
                         </f:facet>
-                        <h:outputText value="#{item.title}"/>
+                        <h:commandLink value="#{item.title}" title="#{item.title}" action="#{taskController.viewTask(item.id)}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            Date Created
-                        </f:facet>
-                        <h:outputText value="#{item.createDate}"/>
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            Status
+                            Completed
                         </f:facet>
                         <h:outputText value="#{item.completed}"/>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            Due Date
-                        </f:facet>
-                        <h:outputText value="#{item.dueDate}"/>
+                            <h:commandLink action="#{taskController.orderByDueDate()}" value="Due Date" title="Sort by due date" style="color: #DACDCD; text-decoration: underline;"/>
+                        </f:facet>                        
+                        <h:outputText value="#{item.dueDate}">
+                            <f:convertDateTime type="date" dateStyle="medium"/>
+                        </h:outputText>
                     </h:column>
                     <h:column>
                         <f:facet name="header">
@@ -43,7 +51,7 @@
                         </f:facet>
                         <h:outputText value="#{item.owner}"/>
                     </h:column>
-                    <h:column>
+                        <h:column>
                         <f:facet name="header">
                             Assigned To
                         </f:facet>
@@ -53,11 +61,23 @@
                         <f:facet name="header">
                             Action
                         </f:facet>
-                        <h:commandLink value="Delete"/>
+                        <h:commandLink action="#{taskController.editTask(item.id)}" styleClass="table-icon edit" title="Edit"/>
+                        <h:commandLink action="#{taskController.deleteTask(item.id)}" styleClass="table-icon delete" title="Delete" />                                
+                        
                     </h:column>
-                </h:dataTable>
-            </h:form>
-        </f:view>
+                </h:dataTable>            
+                    </c:when>
+                        <c:otherwise>
+                            <div class="n_warning">
+                                <p>You currently have no task queued. Click on the Add Task on the <strong>Sidebar</strong> to create a new task.</p>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
+                    </h:form>
+                </ui:define>
+            
+        </ui:composition>
 
     </h:body>
 </html>
